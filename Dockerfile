@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
 # Install Godot 4.4 (stable)
 RUN wget -O godot.zip https://github.com/godotengine/godot/releases/download/4.4-stable/Godot_v4.4-stable_linux.x86_64.zip \
     && unzip godot.zip \
-    && mv Godot_v4.4-stable_linux.x86_64/Godot_v4.4-stable_linux.x86_64 godot \
-    && chmod +x godot \
+    && mv Godot_v4.4-stable_linux.x86_64/Godot_v4.4-stable_linux.x86_64 /usr/local/bin/godot \
+    && chmod +x /usr/local/bin/godot \
     && rm -rf Godot_v4.4-stable_linux.x86_64 godot.zip
 
 # Set working directory
@@ -21,8 +21,12 @@ WORKDIR /app
 # Copy project files
 COPY . /app/
 
-# Export to HTML5
-RUN ./godot --export-release "HTML5" --headless
+# Create build directory and export to HTML5
+RUN mkdir -p /app/build/web && \
+    echo "Starting Godot export..." && \
+    /usr/local/bin/godot --export-release "HTML5" --headless && \
+    echo "Godot export completed" && \
+    ls -la /app/build/web/
 
 # Install nginx for serving static files
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*

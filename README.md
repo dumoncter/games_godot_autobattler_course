@@ -38,12 +38,36 @@ A singleplayer autobattler tutorial project made in Godot 4, optimized for Railw
 2. **Dockerfile** присутствует в корне проекта
 3. **nginx.conf** настроен для динамического порта
 
+### Локальное тестирование
+
+**Перед деплоем на Railway протестируйте сборку локально:**
+
+```bash
+# Тестирование Docker сборки
+./test_docker.sh
+
+# Или вручную:
+docker build -t autobattler-test .
+docker run -d -p 8080:80 --name autobattler-test autobattler-test
+
+# Доступ к игре: http://localhost:8080
+
+# Остановка:
+docker stop autobattler-test && docker rm autobattler-test
+```
+
 ### Быстрый деплой
 
 ```bash
 # Используйте новый скрипт для деплоя
 ./deploy.sh
 ```
+
+### Исправления в Dockerfile:
+- ✅ Исправлен путь к Godot бинарнику (`/usr/local/bin/godot`)
+- ✅ Добавлено создание директории build перед экспортом
+- ✅ Добавлены отладочные сообщения для отслеживания процесса сборки
+- ✅ Исправлена обработка переменной $PORT для Railway
 
 ## 🛠️ Local Development
 

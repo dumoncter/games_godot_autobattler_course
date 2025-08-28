@@ -1,3 +1,5 @@
+# Railway ignore file for Godot Autobattler
+
 # Git files
 .git
 .gitignore
@@ -18,3 +20,13 @@ build/
 # Temporary files
 *.tmp
 *.temp
+
+# Railway specific
+.railway/
+
+# Local scripts (keep only essential ones)
+setup_git.sh
+test_deploy.sh
+
+# Keep deploy.sh and git_push_production.sh for Railway
+# Remove from ignore if needed
