@@ -1,0 +1,20 @@
+# Git files
+.git
+.gitignore
+
+# Development files
+*.log
+.cache/
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts (we'll generate them during build)
+build/
+
+# Temporary files
+*.tmp
+*.temp
