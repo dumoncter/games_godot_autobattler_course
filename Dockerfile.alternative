@@ -1,0 +1,44 @@
+# Alternative approach - use pre-built Godot or skip export for now
+FROM ubuntu:20.04
+
+# Install basic tools
+RUN apt-get update && apt-get install -y \
+    wget \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . /app/
+
+# For now, create a simple HTML placeholder
+RUN mkdir -p /app/build/web && \
+    echo '<!DOCTYPE html>
+<html>
+<head>
+    <title>Godot Autobattler</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .message { font-size: 24px; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>🎮 Godot Autobattler</h1>
+    <p class="message">Игра в разработке. Скоро будет доступна!</p>
+    <p>Game is under development. Coming soon!</p>
+</body>
+</html>' > /app/build/web/index.html
+
+# Copy nginx config
+COPY nginx.conf /etc/nginx/sites-available/default
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+PORT=${PORT:-80}\n\
+sed -i "s/listen 80;/listen $PORT;/" /etc/nginx/sites-available/default\n\
+nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+
+EXPOSE 80
+CMD ["/start.sh"]

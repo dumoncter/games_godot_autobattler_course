@@ -10,14 +10,10 @@ RUN apt-get update && apt-get install -y \
 
 # Install Godot 4.4 (stable)
 RUN wget -O godot.zip https://github.com/godotengine/godot/releases/download/4.4-stable/Godot_v4.4-stable_linux.x86_64.zip \
-    && unzip -l godot.zip \
     && unzip godot.zip \
-    && ls -la \
-    && find . -name "*Godot*" -type f \
-    && mv $(find . -name "*Godot*" -type f | head -1) /usr/local/bin/godot \
+    && mv Godot_v4.4-stable_linux.x86_64/Godot_v4.4-stable_linux.x86_64 /usr/local/bin/godot \
     && chmod +x /usr/local/bin/godot \
-    && rm -f godot.zip \
-    && rm -rf Godot_v4.4-stable_linux.x86_64*
+    && rm -rf Godot_v4.4-stable_linux.x86_64 godot.zip
 
 # Set working directory
 WORKDIR /app

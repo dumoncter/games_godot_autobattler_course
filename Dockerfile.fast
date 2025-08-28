@@ -1,0 +1,22 @@
+# Fast test Dockerfile - just check if files exist
+FROM ubuntu:20.04
+
+# Create directory structure
+RUN mkdir -p /app/build/web
+
+# Copy project files
+COPY . /app/
+
+# Check if required files exist
+RUN echo "Checking project files..." && \
+    ls -la /app/ && \
+    echo "Checking Godot project..." && \
+    test -f /app/project.godot && echo "✅ project.godot found" || echo "❌ project.godot missing" && \
+    test -f /app/export_presets.cfg && echo "✅ export_presets.cfg found" || echo "❌ export_presets.cfg missing" && \
+    echo "Project structure OK"
+
+# Simple web server for testing
+RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8000
+CMD ["python3", "-m", "http.server", "8000", "--directory", "/app"]

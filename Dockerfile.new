@@ -1,0 +1,5 @@
+FROM ubuntu:20.04
+
+RUN apt-get update && echo "Docker test successful"
+
+CMD ["echo", "Hello from autobattler"]
