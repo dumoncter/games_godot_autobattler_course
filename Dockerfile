@@ -30,8 +30,19 @@ RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 # Copy nginx config
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Expose port
+# Create startup script
+RUN echo '#!/bin/bash\n\
+# Use Railway PORT or default to 80\n\
+PORT=${PORT:-80}\n\
+\n\
+# Update nginx config to use the correct port\n\
+sed -i "s/listen 80;/listen $PORT;/" /etc/nginx/sites-available/default\n\
+\n\
+# Start nginx\n\
+nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+
+# Expose port (Railway will set PORT env var)
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["/start.sh"]

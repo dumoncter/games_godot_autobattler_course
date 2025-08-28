@@ -1,0 +1,29 @@
+# Railway ignore file for Godot Autobattler
+
+# Git files
+.git
+.gitignore
+
+# Development files
+*.log
+.cache/
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts (will be generated during Docker build)
+build/
+
+# Node modules (if any)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc

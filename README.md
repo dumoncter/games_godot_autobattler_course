@@ -26,6 +26,25 @@ A singleplayer autobattler tutorial project made in Godot 4, optimized for Railw
    - Railway will provide a URL for your deployed game
    - The game will be accessible in any web browser
 
+## 🚨 Railway Deploy Fix
+
+### Проблема с Nixpacks
+Если Railway показывает ошибку "Nixpacks build failed", это означает, что Railway пытается использовать Nixpacks вместо Docker.
+
+### Решение
+Проект настроен для использования Docker билдера. Убедитесь, что:
+
+1. **railway.toml** содержит: `builder = "dockerfile"`
+2. **Dockerfile** присутствует в корне проекта
+3. **nginx.conf** настроен для динамического порта
+
+### Быстрый деплой
+
+```bash
+# Используйте новый скрипт для деплоя
+./deploy.sh
+```
+
 ## 🛠️ Local Development
 
 ### Requirements
@@ -51,17 +70,30 @@ docker run -p 8080:80 autobattler-test
 godot --export-release "HTML5" --headless
 ```
 
-## 📦 Deployment Script
+## 📦 Deployment Scripts
 
-Use the provided deployment script for easy production updates:
-
+### Быстрый деплой (рекомендуется)
 ```bash
-# Deploy with custom message
+# Автоматический деплой со всеми проверками
+./deploy.sh
+```
+
+### Ручной деплой
+```bash
+# С кастомным сообщением
 ./git_push_production.sh "Updated game mechanics"
 
-# Deploy with auto-generated message
+# С автоматически сгенерированным сообщением
 ./git_push_production.sh
 ```
+
+### Что делают скрипты:
+- ✅ Автоматически настраивают Git identity
+- ✅ Переключаются на production ветку
+- ✅ Добавляют все изменения
+- ✅ Создают коммит
+- ✅ Пушат в production ветку на GitHub
+- ✅ Управляют backup ветками
 
 ## 🏗️ Architecture
 
